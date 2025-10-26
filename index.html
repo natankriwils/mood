@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Gift Box</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #fbe3e8;
+            padding: 20px;
+        }
+        h1 {
+            color: #d63384;
+        }
+        .gift-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .gift-box {
+            width: 120px;
+            height: 120px;
+            background: #ff4d6d;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        .gift-box:hover {
+            transform: scale(1.1);
+        }
+        .gift-box span {
+            font-size: 30px;
+            color: white;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+        .popup img {
+            width: 150px;
+            border-radius: 10px;
+        }
+        .popup iframe {
+            width: 300px;
+            height: 80px;
+            border-radius: 10px;
+            margin-top: 10px;
+        }
+        .close {
+            margin-top: 10px;
+            display: inline-block;
+            padding: 5px 10px;
+            background: #ff4d6d;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Click a Gift to Reveal a Surprise!</h1>
+    <div class="gift-container">
+        <div class="gift-box" onclick="openGift(0)"><span>🎁</span></div>
+        <div class="gift-box" onclick="openGift(1)"><span>🎁</span></div>
+        <div class="gift-box" onclick="openGift(2)"><span>🎁</span></div>
+    </div>
+
+    <div class="popup" id="popup">
+        <p id="giftMessage"></p>
+        <img id="giftImage" src="" alt="Gift Image" style="display:none;">
+        <iframe id="spotifyEmbed" style="display:none;" allow="encrypted-media"></iframe>
+        <div class="close" onclick="closeGift()">Close</div>
+    </div>
+
+    <script>
+        let gifts = [
+            { message: "Text for youu ❤️", image: "note.jpg", redirect: "notes.html" },
+            { message: "Best moment 😊", image: "memory.jpg", redirect: "gallery.html" },
+            { message: "Our reminder song 🎶", spotify: "https://open.spotify.com/embed/track/0MTR8fpCS8Ddi5L274yhVl" }
+        ];
+
+        function openGift(index) {
+            let popup = document.getElementById("popup");
+            let message = document.getElementById("giftMessage");
+            let img = document.getElementById("giftImage");
+            let spotifyEmbed = document.getElementById("spotifyEmbed");
+
+            if (gifts[index].redirect) {
+                window.location.href = gifts[index].redirect;
+            } else {
+                message.innerText = gifts[index].message;
+                if (gifts[index].image) {
+                    img.src = gifts[index].image;
+                    img.style.display = "block";
+                } else {
+                    img.style.display = "none";
+                }
+                
+                if (gifts[index].spotify) {
+                    spotifyEmbed.src = gifts[index].spotify;
+                    spotifyEmbed.style.display = "block";
+                } else {
+                    spotifyEmbed.style.display = "none";
+                }
+                
+                popup.style.display = "block";
+            }
+        }
+
+        function closeGift() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
+</body>
+</html>
